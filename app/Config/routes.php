@@ -31,6 +31,7 @@
 	Router::connect('/sitemap.xml', array('controller' => 'products', 'action' => 'sitemap'));
 
 	Router::connect('/admin', array('controller' => 'users', 'action' => 'dashboard', 'admin' => true));
+	Router::connect('/customer', array('controller' => 'users', 'action' => 'dashboard', 'customer' => true));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

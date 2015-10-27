@@ -1,7 +1,7 @@
 body {
 	color: #333;
 	font-family: 'Open Sans', Verdana, Arial, sans-serif;
-	font-size: 14px;
+	font-size: 13px;
 	background-color: #BBBBBB;
 }
 
@@ -44,11 +44,12 @@ h1, h2, h3, h4 {
 .error {
 	font-size: 11px;
 	color: red;
+	font-weight: normal;
 }
 
-.debug {
-	font-size: 12px;
-	padding: 10px;
+.sqldump {
+	font-size: 80%;
+	padding: 15px;
 }
 
 .flash-msg {
@@ -60,6 +61,16 @@ h1, h2, h3, h4 {
 
 .px60 {
 	height: 60px;
+}
+
+.checkbox {
+	padding-left: 20px;
+}
+
+.radio label,
+.checkbox label {
+	display: inline;
+	padding-left: 0px;
 }
 
 .tl { text-align: left }

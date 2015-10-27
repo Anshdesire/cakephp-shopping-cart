@@ -1,11 +1,5 @@
 <?php
 /**
- * Environment Panel
- *
- * Provides information about your PHP and CakePHP environment to assist with debugging.
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,17 +8,15 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       DebugKit.Lib.Panel
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  *
  */
 
-App::uses ('DebugPanel', 'DebugKit.Lib');
+App::uses('DebugPanel', 'DebugKit.Lib');
 
 /**
- * Class EnvironmentPanel
+ * Provides information about your PHP and CakePHP environment to assist with debugging.
  *
- * @package       DebugKit.Lib.Panel
  */
 class EnvironmentPanel extends DebugPanel {
 
@@ -35,7 +27,7 @@ class EnvironmentPanel extends DebugPanel {
  * @return array
  */
 	public function beforeRender(Controller $controller) {
-		parent::beforeRender ($controller);
+		parent::beforeRender($controller);
 
 		$return = array();
 
@@ -53,7 +45,7 @@ class EnvironmentPanel extends DebugPanel {
 			'CAKE' => CAKE,
 			'CAKE_CORE_INCLUDE_PATH' => CAKE_CORE_INCLUDE_PATH,
 			'CORE_PATH' => CORE_PATH,
-			'CAKE_VERSION' => Configure::version (),
+			'CAKE_VERSION' => Configure::version(),
 			'CSS' => CSS,
 			'CSS_URL' => CSS_URL,
 			'DS' => DS,
@@ -71,8 +63,12 @@ class EnvironmentPanel extends DebugPanel {
 			'WWW_ROOT' => WWW_ROOT
 		);
 
-		$cakeConstants = array_fill_keys(array('DS', 'ROOT', 'FULL_BASE_URL', 'TIME_START', 'SECOND',
-			 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'MONTH', 'YEAR', 'LOG_ERROR', 'FULL_BASE_URL'), '');
+		$cakeConstants = array_fill_keys(
+			array(
+				'DS', 'ROOT', 'FULL_BASE_URL', 'TIME_START', 'SECOND', 'MINUTE', 'HOUR', 'DAY', 'WEEK', 'MONTH', 'YEAR',
+				'LOG_ERROR', 'FULL_BASE_URL'
+			), ''
+		);
 		$var = get_defined_constants(true);
 		$return['app'] = array_diff_key($var['user'], $return['cake'], $cakeConstants);
 

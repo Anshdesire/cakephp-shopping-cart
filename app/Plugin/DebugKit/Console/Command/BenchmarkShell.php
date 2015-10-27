@@ -8,12 +8,11 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       DebugKit.Console.Command
  * @since         DebugKit 1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('String','Utility');
+App::uses('String', 'Utility');
 
 /**
  * Benchmark Shell Class
@@ -21,7 +20,6 @@ App::uses('String','Utility');
  * Provides basic benchmarking of application requests
  * functionally similar to Apache AB
  *
- * @package       DebugKit.Console.Command
  * @since         DebugKit 1.0
  * @todo Print/export time detail information
  * @todo Export/graphing of data to .dot format for graphviz visualization
@@ -113,7 +111,9 @@ class BenchmarkShell extends Shell {
 			$M2 = $M2 + $delta * ($time - $mean);
 		}
 
-		if ($sample) $n -= 1;
+		if ($sample) {
+			$n -= 1;
+		}
 
 		return $M2 / $n;
 	}
@@ -122,7 +122,7 @@ class BenchmarkShell extends Shell {
  * Calculate the standard deviation.
  *
  * @param array $times Array of values
- * @param bool $sample
+ * @param boolean $sample
  * @return float Standard deviation
  */
 	protected function _deviation($times, $sample = true) {
@@ -146,7 +146,7 @@ class BenchmarkShell extends Shell {
 		->addOption('t', array(
 			'default' => 100,
 			'help' => __d('debug_kit', 'Maximum total time for all iterations, in seconds.' .
-				'If a single iteration takes more than the tiemout, only one request will be made'
+				'If a single iteration takes more than the timeout, only one request will be made'
 			)
 		))
 		->epilog(__d('debug_kit',

@@ -18,9 +18,7 @@ $(document).ready(function(){
 			}
 		}
 
-		var id = $(this).attr("data-id");
-
-		ajaxcart(id, quantity);
+		ajaxcart($(this).attr("data-id"), quantity, $(this).attr("data-mods"));
 
 	});
 
@@ -33,7 +31,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	function ajaxcart(id, quantity) {
+	function ajaxcart(id, quantity, mods) {
 
 		if(quantity === 0) {
 			$('#row-' + id).fadeOut(1000, function(){ $('#row-' + id).remove(); });
@@ -44,14 +42,15 @@ $(document).ready(function(){
 			url: Shop.basePath + "shop/itemupdate",
 			data: {
 				id: id,
+				mods: mods,
 				quantity: quantity
 			},
 			dataType: "json",
 			success: function(data) {
 				$.each(data.OrderItem, function(key, value) {
-					if($('#subtotal-' + key).html() != value.subtotal) {
+					if($('#subtotal_' + key).html() != value.subtotal) {
 						$('#ProductQuantity-' + key).val(value.quantity);
-						$('#subtotal-' + key).html(value.subtotal).animate({ backgroundColor: "#ff8" }, 100).animate({ backgroundColor: "#fff" }, 500);
+						$('#subtotal_' + key).html(value.subtotal).animate({ backgroundColor: "#ff8" }, 100).animate({ backgroundColor: "#fff" }, 500);
 					}
 				});
 				$('#subtotal').html('$' + data.Order.total).animate({ backgroundColor: "#ff8" }, 100).animate({ backgroundColor: "#fff" }, 500);

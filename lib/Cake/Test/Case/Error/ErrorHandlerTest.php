@@ -2,8 +2,6 @@
 /**
  * ErrorHandlerTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -21,6 +19,23 @@
 App::uses('ErrorHandler', 'Error');
 App::uses('Controller', 'Controller');
 App::uses('Router', 'Routing');
+
+/**
+ * A faulty ExceptionRenderer to test nesting.
+ */
+class FaultyExceptionRenderer extends ExceptionRenderer {
+
+/**
+ * Dummy rendering implementation.
+ *
+ * @return void
+ * @throws Exception
+ */
+	public function render() {
+		throw new Exception('Error from renderer.');
+	}
+
+}
 
 /**
  * ErrorHandlerTest class
@@ -320,6 +335,50 @@ class ErrorHandlerTest extends CakeTestCase {
 		$log = file(LOGS . 'error.log');
 		$this->assertContains(__FILE__, $log[0], 'missing filename');
 		$this->assertContains('[FatalErrorException] Something wrong', $log[1], 'message missing.');
+	}
+
+/**
+ * testExceptionRendererNestingDebug method
+ *
+ * @return void
+ */
+	public function testExceptionRendererNestingDebug() {
+		Configure::write('debug', 2);
+		Configure::write('Exception.renderer', 'FaultyExceptionRenderer');
+
+		$result = false;
+		try {
+			ob_start();
+			ob_start();
+			ErrorHandler::handleFatalError(E_USER_ERROR, 'Initial error', __FILE__, __LINE__);
+		} catch (Exception $e) {
+			$result = $e instanceof FatalErrorException;
+		}
+
+		restore_error_handler();
+		$this->assertTrue($result);
+	}
+
+/**
+ * testExceptionRendererNestingProduction method
+ *
+ * @return void
+ */
+	public function testExceptionRendererNestingProduction() {
+		Configure::write('debug', 0);
+		Configure::write('Exception.renderer', 'FaultyExceptionRenderer');
+
+		$result = false;
+		try {
+			ob_start();
+			ob_start();
+			ErrorHandler::handleFatalError(E_USER_ERROR, 'Initial error', __FILE__, __LINE__);
+		} catch (Exception $e) {
+			$result = $e instanceof InternalErrorException;
+		}
+
+		restore_error_handler();
+		$this->assertTrue($result);
 	}
 
 }

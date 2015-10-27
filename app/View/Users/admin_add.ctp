@@ -1,18 +1,23 @@
-<div class="users form">
-<?php echo $this->Form->create('User');?>
-	<fieldset>
-		<legend><?php echo __('Admin Add User'); ?></legend>
-	<?php
-		echo $this->Form->input('username');
-		echo $this->Form->input('password');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit'));?>
-</div>
-<div class="actions">
-	<h3>Actions</h3>
-	<ul>
+<h2>Admin Add User</h2>
 
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index'));?></li>
-	</ul>
+<br />
+
+<div class="row">
+    <div class="col-sm-4">
+
+        <?php echo $this->Form->create('User');?>
+        <?php echo $this->Form->input('role', array('class' => 'form-control', 'options' => array('admin' => 'admin', 'customer' => 'customer'))); ?>
+        <br />
+        <?php echo $this->Form->input('name', array('class' => 'form-control')); ?>
+        <br />
+        <?php echo $this->Form->input('username', array('class' => 'form-control')); ?>
+        <br />
+        <?php echo $this->Form->input('password', array('class' => 'form-control')); ?>
+        <br />
+        <?php echo $this->Form->input('active', array('type' => 'checkbox')); ?>
+        <br />
+        <?php echo $this->Form->button('Submit', array('class' => 'btn btn-primary')); ?>
+        <?php echo $this->Form->end(); ?>
+
+    </div>
 </div>

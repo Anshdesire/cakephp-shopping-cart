@@ -12,7 +12,6 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       DebugKit.Test.Case.Lib
  * @since         debug_kit 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  **/
@@ -23,7 +22,6 @@ require_once CakePlugin::path('DebugKit') . 'Test' . DS . 'Case' . DS . 'TestFir
 /**
  * Test case for the DebugKitDebugger
  *
- * @package       DebugKit.Test.Case.Lib
  * @since         debug_kit 0.1
  */
 class DebugKitDebuggerTest extends CakeTestCase {
@@ -36,6 +34,8 @@ class DebugKitDebuggerTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('log', false);
+		$this->firecake = FireCake::getInstance('TestFireCake');
+		TestFireCake::reset();
 	}
 
 /**
@@ -47,6 +47,7 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		parent::tearDown();
 		Configure::write('log', true);
 		DebugKitDebugger::clearTimers();
+		TestFireCake::reset();
 	}
 
 /**
@@ -55,7 +56,6 @@ class DebugKitDebuggerTest extends CakeTestCase {
  * @return void
  */
 	public function testOutput() {
-		$firecake = FireCake::getInstance('TestFireCake');
 		Debugger::getInstance('DebugKitDebugger');
 		Debugger::addFormat('fb', array('callback' => 'DebugKitDebugger::fireError'));
 		Debugger::outputAs('fb');
@@ -64,7 +64,7 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		$foo .= '';
 		restore_error_handler();
 
-		$result = $firecake->sentHeaders;
+		$result = $this->firecake->sentHeaders;
 
 		$this->assertRegExp('/GROUP_START/', $result['X-Wf-1-1-1-1']);
 		$this->assertRegExp('/ERROR/', $result['X-Wf-1-1-1-2']);

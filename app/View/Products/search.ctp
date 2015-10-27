@@ -11,11 +11,11 @@
 <?php echo $this->Form->create('Product', array('type' => 'GET')); ?>
 
 <div class="col col-sm-4">
-	<?php echo $this->Form->input('search', array('label' => false, 'div' => false, 'class' => 'form-control', 'autocomplete' => 'off', 'value' => $search)); ?>
+    <?php echo $this->Form->input('search', array('label' => false, 'div' => false, 'class' => 'form-control', 'autocomplete' => 'off', 'value' => $search)); ?>
 </div>
 
 <div class="col col-sm-3">
-	<?php echo $this->Form->button('Search', array('div' => false, 'class' => 'btn btn-sm btn-primary')); ?>
+    <?php echo $this->Form->button('Search', array('div' => false, 'class' => 'btn btn-sm btn-primary')); ?>
 </div>
 
 <?php echo $this->Form->end(); ?>

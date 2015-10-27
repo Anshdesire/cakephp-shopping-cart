@@ -4,8 +4,6 @@
  *
  * Provides enhanced logging, stack traces, and rendering debug views
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -21,7 +19,7 @@
  */
 
 App::uses('CakeLog', 'Log');
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 
 /**
  * Provide custom logging and error handling.
@@ -81,8 +79,7 @@ class Debugger {
 			'traceLine' => '{:reference} - {:path}, line {:line}',
 			'trace' => "Trace:\n{:trace}\n",
 			'context' => "Context:\n{:context}\n",
-		),
-		'log' => array(),
+		)
 	);
 
 /**
@@ -151,7 +148,7 @@ class Debugger {
 /**
  * Returns a reference to the Debugger singleton object instance.
  *
- * @param string $class
+ * @param string $class Debugger class name.
  * @return object
  */
 	public static function getInstance($class = null) {
@@ -170,14 +167,14 @@ class Debugger {
 /**
  * Recursively formats and outputs the contents of the supplied variable.
  *
- *
  * @param mixed $var the variable to dump
+ * @param int $depth The depth to output to. Defaults to 3.
  * @return void
  * @see Debugger::exportVar()
  * @link http://book.cakephp.org/2.0/en/development/debugging.html#Debugger::dump
  */
-	public static function dump($var) {
-		pr(self::exportVar($var));
+	public static function dump($var, $depth = 3) {
+		pr(self::exportVar($var, $depth));
 	}
 
 /**
@@ -185,25 +182,26 @@ class Debugger {
  * as well as export the variable using exportVar. By default the log is written to the debug log.
  *
  * @param mixed $var Variable or content to log
- * @param integer $level type of log to use. Defaults to LOG_DEBUG
+ * @param int $level type of log to use. Defaults to LOG_DEBUG
+ * @param int $depth The depth to output to. Defaults to 3.
  * @return void
  * @link http://book.cakephp.org/2.0/en/development/debugging.html#Debugger::log
  */
-	public static function log($var, $level = LOG_DEBUG) {
+	public static function log($var, $level = LOG_DEBUG, $depth = 3) {
 		$source = self::trace(array('start' => 1)) . "\n";
-		CakeLog::write($level, "\n" . $source . self::exportVar($var));
+		CakeLog::write($level, "\n" . $source . self::exportVar($var, $depth));
 	}
 
 /**
  * Overrides PHP's default error handling.
  *
- * @param integer $code Code of error
+ * @param int $code Code of error
  * @param string $description Error description
  * @param string $file File on which error occurred
- * @param integer $line Line that triggered the error
+ * @param int $line Line that triggered the error
  * @param array $context Context
- * @return boolean true if error was handled
- * @deprecated Will be removed in 3.0. This function is superseded by Debugger::outputError().
+ * @return bool true if error was handled
+ * @deprecated 3.0.0 Will be removed in 3.0. This function is superseded by Debugger::outputError().
  */
 	public static function showError($code, $description, $file = null, $line = null, $context = null) {
 		$self = Debugger::getInstance();
@@ -339,7 +337,7 @@ class Debugger {
 				$trace['path'] = self::trimPath($trace['file']);
 				$trace['reference'] = $reference;
 				unset($trace['object'], $trace['args']);
-				$back[] = String::insert($tpl, $trace, array('before' => '{:', 'after' => '}'));
+				$back[] = CakeText::insert($tpl, $trace, array('before' => '{:', 'after' => '}'));
 			}
 		}
 
@@ -385,8 +383,8 @@ class Debugger {
  * applied.
  *
  * @param string $file Absolute path to a PHP file
- * @param integer $line Line number to highlight
- * @param integer $context Number of lines of context to extract above and below $line
+ * @param int $line Line number to highlight
+ * @param int $context Number of lines of context to extract above and below $line
  * @return array Set of lines highlighted
  * @see http://php.net/highlight_string
  * @link http://book.cakephp.org/2.0/en/development/debugging.html#Debugger::excerpt
@@ -465,7 +463,7 @@ class Debugger {
  * shown in an error message if CakePHP is deployed in development mode.
  *
  * @param string $var Variable to convert
- * @param integer $depth The depth to output to. Defaults to 3.
+ * @param int $depth The depth to output to. Defaults to 3.
  * @return string Variable as a formatted string
  * @link http://book.cakephp.org/2.0/en/development/debugging.html#Debugger::exportVar
  */
@@ -477,8 +475,8 @@ class Debugger {
  * Protected export function used to keep track of indentation and recursion.
  *
  * @param mixed $var The variable to dump.
- * @param integer $depth The remaining depth.
- * @param integer $indent The current indentation level.
+ * @param int $depth The remaining depth.
+ * @param int $indent The current indentation level.
  * @return string The dumped variable.
  */
 	protected static function _export($var, $depth, $indent) {
@@ -521,8 +519,8 @@ class Debugger {
  * - schema
  *
  * @param array $var The array to export.
- * @param integer $depth The current depth, used for recursion tracking.
- * @param integer $indent The current indentation level.
+ * @param int $depth The current depth, used for recursion tracking.
+ * @param int $indent The current indentation level.
  * @return string Exported array.
  */
 	protected static function _array(array $var, $depth, $indent) {
@@ -539,9 +537,8 @@ class Debugger {
 		$var = $replace + $var;
 
 		$out = "array(";
-		$n = $break = $end = null;
+		$break = $end = null;
 		if (!empty($var)) {
-			$n = "\n";
 			$break = "\n" . str_repeat("\t", $indent);
 			$end = "\n" . str_repeat("\t", $indent - 1);
 		}
@@ -569,8 +566,8 @@ class Debugger {
  * Handles object to string conversion.
  *
  * @param string $var Object to convert
- * @param integer $depth The current depth, used for tracking recursion.
- * @param integer $indent The current indentation level.
+ * @param int $depth The current depth, used for tracking recursion.
+ * @param int $indent The current indentation level.
  * @return string
  * @see Debugger::exportVar()
  */
@@ -640,7 +637,7 @@ class Debugger {
  *
  * `Debugger::addFormat('custom', $data);`
  *
- * Where $data is an array of strings that use String::insert() variable
+ * Where $data is an array of strings that use CakeText::insert() variable
  * replacement. The template vars should be in a `{:id}` style.
  * An error formatter can have the following keys:
  *
@@ -699,10 +696,10 @@ class Debugger {
  *    straight HTML output, or 'txt' for unformatted text.
  * @param array $strings Template strings to be used for the output format.
  * @return string
- * @deprecated Use Debugger::outputAs() and Debugger::addFormat(). Will be removed
+ * @deprecated 3.0.0 Use Debugger::outputAs() and Debugger::addFormat(). Will be removed
  *   in 3.0
  */
-	public function output($format = null, $strings = array()) {
+	public static function output($format = null, $strings = array()) {
 		$self = Debugger::getInstance();
 		$data = null;
 
@@ -726,7 +723,7 @@ class Debugger {
 /**
  * Takes a processed array of data from an error and displays it in the chosen format.
  *
- * @param string $data
+ * @param string $data Data to output.
  * @return void
  */
 	public function outputError($data) {
@@ -778,7 +775,7 @@ class Debugger {
 
 		if (isset($tpl['links'])) {
 			foreach ($tpl['links'] as $key => $val) {
-				$links[$key] = String::insert($val, $data, $insertOpts);
+				$links[$key] = CakeText::insert($val, $data, $insertOpts);
 			}
 		}
 
@@ -794,18 +791,18 @@ class Debugger {
 			if (is_array($value)) {
 				$value = implode("\n", $value);
 			}
-			$info .= String::insert($tpl[$key], array($key => $value) + $data, $insertOpts);
+			$info .= CakeText::insert($tpl[$key], array($key => $value) + $data, $insertOpts);
 		}
 		$links = implode(' ', $links);
 
 		if (isset($tpl['callback']) && is_callable($tpl['callback'])) {
 			return call_user_func($tpl['callback'], $data, compact('links', 'info'));
 		}
-		echo String::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
+		echo CakeText::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
 	}
 
 /**
- * Get the type of the given variable. Will return the classname
+ * Get the type of the given variable. Will return the class name
  * for objects.
  *
  * @param mixed $var The variable to get the type of

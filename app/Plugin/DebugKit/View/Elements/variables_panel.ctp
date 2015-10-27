@@ -12,13 +12,12 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       DebugKit.View.Elements
  * @since         DebugKit 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- **/
+ */
 ?>
 <h2> <?php echo __d('debug_kit', 'View Variables'); ?></h2>
-<?php 
+<?php
 $content['$this->validationErrors'] = $this->validationErrors;
 $content['Loaded Helpers'] = $this->Helpers->attached();
-echo $this->Toolbar->makeNeatArray($content); ?>
+echo $this->Toolbar->makeNeatArray($content);

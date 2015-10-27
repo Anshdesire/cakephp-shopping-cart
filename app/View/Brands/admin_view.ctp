@@ -1,30 +1,30 @@
 <h2>Brand</h2>
 
 <table class="table-striped table-bordered table-condensed table-hover">
-	<tr>
-		<td>Id</td>
-		<td><?php echo h($brand['Brand']['id']); ?></td>
-	</tr>
-	<tr>
-		<td>Name</td>
-		<td><?php echo h($brand['Brand']['name']); ?></td>
-	</tr>
-	<tr>
-		<td>Slug</td>
-		<td><?php echo h($brand['Brand']['slug']); ?></td>
-	</tr>
-	<tr>
-		<td>Active</td>
-		<td><?php echo h($brand['Brand']['active']); ?></td>
-	</tr>
-	<tr>
-		<td>Created</td>
-		<td><?php echo h($brand['Brand']['created']); ?></td>
-	</tr>
-	<tr>
-		<td>Modified</td>
-		<td><?php echo h($brand['Brand']['modified']); ?></td>
-	</tr>
+    <tr>
+        <td>Id</td>
+        <td><?php echo h($brand['Brand']['id']); ?></td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td><?php echo h($brand['Brand']['name']); ?></td>
+    </tr>
+    <tr>
+        <td>Slug</td>
+        <td><?php echo h($brand['Brand']['slug']); ?></td>
+    </tr>
+    <tr>
+        <td>Active</td>
+        <td><?php echo h($brand['Brand']['active']); ?></td>
+    </tr>
+    <tr>
+        <td>Created</td>
+        <td><?php echo h($brand['Brand']['created']); ?></td>
+    </tr>
+    <tr>
+        <td>Modified</td>
+        <td><?php echo h($brand['Brand']['modified']); ?></td>
+    </tr>
 </table>
 
 <br />

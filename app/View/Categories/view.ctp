@@ -1,7 +1,7 @@
 <?php
 $this->Html->addCrumb('Categories', '/categories/');
 foreach ($parents as $parent) {
-	$this->Html->addCrumb($parent['Category']['name'], '/category/' . $parent['Category']['slug']);
+    $this->Html->addCrumb($parent['Category']['name'], '/category/' . $parent['Category']['slug']);
 }
 ?>
 

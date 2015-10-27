@@ -32,21 +32,21 @@ App::uses('Helper', 'View');
  */
 class AppHelper extends Helper {
 
-	public $helpers = array(
-		'Html',
-		'Form',
-		'Session',
-		'Js',
-	);
+    public $helpers = array(
+        'Html',
+        'Form',
+        'Session',
+        'Js',
+    );
 
-	public function js() {
-		$shop = array();
-		$shop['basePath'] = Router::url('/');
-		$shop['params'] = array(
-			'controller' => $this->params['controller'],
-			'action' => $this->params['action'],
-		);
-		return $this->Html->scriptBlock('var Shop = ' . $this->Js->object($shop) . ';');
-	}
+    public function js() {
+        $shop = array();
+        $shop['basePath'] = Router::url('/');
+        $shop['params'] = array(
+            'controller' => $this->params['controller'],
+            'action' => $this->params['action'],
+        );
+        return $this->Html->scriptBlock('var Shop = ' . $this->Js->object($shop) . ';');
+    }
 
 }

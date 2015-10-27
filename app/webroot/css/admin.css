@@ -1,11 +1,27 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,700,600);
+
 body {
+	font-family: 'Open Sans', sans-serif;
 	padding-bottom: 40px;
+	background: #E2E2E2;
 }
 
 .content {
 	font-size: 80%;
-	padding: 10px;
-	padding-top: 0;
+	padding: 15px;
+	margin-top: -20px;
+	background: #FFFFFF;
+}
+
+.footer {
+	font-size: 80%;
+	padding: 15px;
+	background: #EFEFEF;
+}
+
+.sqldump {
+	font-size: 80%;
+	padding: 15px;
 }
 
 .error {
@@ -18,4 +34,14 @@ body {
 	padding:10px;
 	background:#EEEEEE;
 	color:#444444;
+}
+
+.checkbox {
+	padding-left: 20px;
+}
+
+.radio label,
+.checkbox label {
+	display: inline;
+	padding-left: 0px;
 }

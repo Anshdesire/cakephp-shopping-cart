@@ -6,7 +6,7 @@
 <br />
 
 <pre>
-	<?php print_r($shop); ?>
+    <?php print_r($shop); ?>
 </pre>
 
 <br />

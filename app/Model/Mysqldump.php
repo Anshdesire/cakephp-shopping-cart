@@ -1,6 +1,6 @@
 <?php
 class Mysqldump extends AppModel {
 
-	public $useTable = false;
+    public $useTable = false;
 
 }
